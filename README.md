@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Crytpocurrency Tracker
 
 
@@ -51,3 +52,7 @@ https://chaindebrief.com/which-blockchain-highest-developer-count/#:~:text=It's%
 https://cointelegraph.com/news/ethereum-dominates-among-developers-but-competitors-growing-faster
 
 https://www.coindesk.com/tech/2022/01/05/whats-the-healthiest-chart-in-crypto-the-developer-count/
+=======
+# project1
+## a cryptocurrency tracker
+>>>>>>> development
