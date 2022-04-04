@@ -1,19 +1,13 @@
 testArray = [
-    {time: 1, price: 5},
-    {time: 2, price: 4},
-    {time: 3, price: 6},
-    {time: 4, price: 5},
-    {time: 5, price: 7}
+    {time: 1, price: 52},
+    {time: 2, price: 46},
+    {time: 3, price: 63},
+    {time: 4, price: 56},
+    {time: 5, price: 75}
 ];
 
 async function createLineGraph(data) {
     console.log(data);
-
-    // function getMinMax(data) {
-    //     
-    //     return [min, max];
-    // }
-    // const minMax = getMinMax(data);
 
     const dimensions = {
         width: window.innerWidth * 0.66,
@@ -48,6 +42,7 @@ async function createLineGraph(data) {
             .attr("width", dimensions.width)
             .attr("height", dimensions.height);
 
+    // g is the equivalent of a div element but for svg elements
     const bounds = wrapper.append("g")
             .style("transform", `translate(${
                 dimensions.margins.left
@@ -75,28 +70,21 @@ async function createLineGraph(data) {
             .attr("stroke", "cornflowerblue")
             .attr("stroke-width", 3);
 
-    // const yScale = d3.scaleLinear()
-    //     .domain([minMax[0], minxMax[1]])
-    //     .range([dimensions.boundedHeight, 0]);
+    // Draw peripherals
 
-    // let line = d3.svg.line()
-    //     .x(function(d) {return d.date})
-    //     .y(function(d) {return d.price})
-    //     .interpolate("linear");
+    const yAxisGenerator = d3.axisLeft()
+        .scale(yScale);
 
-    // let svg = d3.select(".graph")
-    //     .append("svg")
-    //     .attr({
-    //         "width": width,
-    //         "height": height
-    //     });
+    const xAxisGenerator = d3.axisBottom()
+        .scale(xScale);
     
-    // let path = svg.append("path")
-    //     .attr({
-    //         d:line(data),
-    //         "fill":"none",
-    //         "stroke":"blue"
-    //     });
+    // Creates 2 groups and draws the x and y axes in them
+    const yAxis = bounds.append("g")
+        .call(yAxisGenerator);
+
+    const xAxis = bounds.append("g")
+        .call(xAxisGenerator)
+        .style("transform", `translateY(${dimensions.boundedHeight}px)`);
 }
 
 createLineGraph(testArray);
