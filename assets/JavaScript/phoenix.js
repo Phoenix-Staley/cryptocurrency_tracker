@@ -1,9 +1,13 @@
 testArray = [
     {time: 1, price: 52, date: "3/31/2022"},
-    {time: 2, price: 46, date: "4/1/2022"},
-    {time: 3, price: 63, date: "4/2/2022"},
-    {time: 4, price: 56, date: "4/3/2022"},
-    {time: 5, price: 75, date: "4/4/2022"}
+    {time: 1, price: 51, date: "4/1/2022"},
+    {time: 2, price: 45, date: "4/2/2022"},
+    {time: 2, price: 48, date: "4/3/2022"},
+    {time: 3, price: 63, date: "4/4/2022"},
+    {time: 2, price: 59, date: "4/5/2022"},
+    {time: 4, price: 56, date: "4/6/2022"},
+    {time: 2, price: 66, date: "4/7/2022"},
+    {time: 5, price: 75, date: "4/8/2022"}
 ];
 
 async function createLineGraph(data) {
@@ -28,7 +32,7 @@ async function createLineGraph(data) {
         - dimensions.margins.bottom;
 
     const parseDate = d3.timeParse("%m/%d/%Y");
-    
+
     function yAccessor(dPoint) {
         return dPoint["price"];
     }
