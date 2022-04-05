@@ -33,8 +33,15 @@ body {
 }
 
 .curValue {
-  display: flex;
+  display: flex inline;
   justify-content: left;
+  align-items: center;
+}
+
+div card{
+  background: #963d72ff;
+  height: 400px;
+  width: 200px;
 }
 
 
@@ -49,6 +56,7 @@ body {
     width: 100%;
     overflow: auto;
     box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
+    background-color: white;
   }
   .dropdown:hover .dropdown-content {
     display: block;
