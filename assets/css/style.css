@@ -14,15 +14,34 @@ body {
     color: #ffffffff;
 }
 
-.graph{
+/* centering graph */
+.center-g{
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+
+/* changing x and y graph axis thickness */
+.domain{
+  stroke-width: 3;
+}
+
+/* changing font size of graph units */
+.tick {
+  font-size: 14px;
+}
+
+.curValue {
+  display: flex;
+  justify-content: left;
+}
+
+
 .dropdown {
     display: inline-block;
     position: relative;
+    background-color: white;
   }
   .dropdown-content {
     display: none;
@@ -36,7 +55,7 @@ body {
   }
   .dropdown-content a {
     display: block;
-    color: #000000;
+    color: #080808;
     padding: 5px;
     text-decoration: none;
   }
