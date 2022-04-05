@@ -137,7 +137,16 @@ async function createCandlestickGraph(data) {
                 dimensions.margins.top
             }px)`);
 
-    
+    // Draw data
+    const candlestickGenerator = d3.line()
+            .x(d => xScale(xAccessor(d)))
+            .y(d => yScale(yAccessor(d)));
+    const candlesticks = bounds.append("path")
+            // d defines the shape to be drawn
+            .attr("d", candlestickGenerator(data))
+            .attr("fill", "none")
+            .attr("stroke", "cornflowerblue")
+            .attr("stroke-width", 3);
 
     const yScale = d3.scaleLinear()
         .domain(d3.extent(data, yAccessorLow))
