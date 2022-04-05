@@ -3,8 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="">
-    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="./assets/.css/normalize.css">
+    <link rel="stylesheet" href="./assets/.css/skeleton.css">
+    <link rel="stylesheet" href="./assets/.css/style.css">
     <title>Crypto Tracker.com</title>
     
    <header>
@@ -14,18 +15,37 @@
 
 <body>
     <nav>
-        <a href="#bitCoin">BTC</a>
-        <a href="#ethereum">ETH</a>
-        <a href="#lite">LTC</a>
+        <button href="#">BTC</button>
+        <button href="#">% Change</button>
+
     </nav>
 
-    <div class="">
-        <card>Current Value:</card>
+    <div class="curValue">
+        <card>Current Value:<span id="curent-value"></span>
+        </card>
     </div>
+
+    <div class="pastValue">Value on:<span id="past-value-date"></span>was<span id="past-value"></span></div>
+
+    <div class="calender"></div>
     
+    <section class="graph"></section>
+
+    <div class="converter"></div>
+
+    <card class="links">
+        <h4>Using the links below you can easily invest in the crypto currencies you see above</h4>
+          <ui>
+            <a href="https://robinhood.com">Robinhood</a>
+            <a href="https://www.coinbase.com/">CoinBase</a>
+            <a href="https://crypto.com/">Crypto.com</a>
+          </ui>
+    </card>
 
 
-
+    <script src="https://momentjs.com/"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="./assets/JavaScript/phoenix.js"></script>
 </body>
 
 
