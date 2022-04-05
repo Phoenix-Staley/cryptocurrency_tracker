@@ -63,7 +63,11 @@ div card{
   }
   .dropdown-content a {
     display: block;
+<<<<<<< HEAD
     color: #080808;
+=======
+    color: #050000;
+>>>>>>> development
     padding: 5px;
     text-decoration: none;
   }
