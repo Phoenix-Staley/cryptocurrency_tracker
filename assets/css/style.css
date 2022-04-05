@@ -32,21 +32,30 @@ body {
   font-size: 14px;
 }
 
-.curValue {
-  display: flex inline;
-  justify-content: left;
-  align-items: center;
+.cardContainer div{
+  display: inline-block;
 }
 
+/* stylizing the current value and past value cards */
 div card{
-  background: #963d72ff;
-  height: 400px;
-  width: 200px;
+  background:  #475977ff;
+  height: 20px;
+  width: 150px;
+  padding: 10px;
+  display: inline-block;
+  justify-content: left;
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
 }
 
+
+.dropdownButton {
+  display:inline-block;
+}
 
 .dropdown {
-    display: inline-block;
+    display: block;
     position: relative;
     background-color: white;
   }
@@ -63,11 +72,7 @@ div card{
   }
   .dropdown-content a {
     display: block;
-<<<<<<< HEAD
-    color: #080808;
-=======
-    color: #050000;
->>>>>>> development
+    color: black;
     padding: 5px;
     text-decoration: none;
   }
