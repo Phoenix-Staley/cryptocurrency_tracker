@@ -3,9 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="./assets/.css/normalize.css">
-    <link rel="stylesheet" href="./assets/.css/skeleton.css">
-    <link rel="stylesheet" href="./assets/.css/style.css">
+    <link rel="stylesheet" href="./assets/css/normalize.css">
+    <link rel="stylesheet" href="./assets/css/skeleton.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    
+
     <title>Crypto Tracker.com</title>
     
    <header>
@@ -25,9 +27,20 @@
         </card>
     </div>
 
+    <div class="dropdown">
+        <button>Select A Date</button>
+        <div class="dropdown-content">
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+        </div>
+    </div>
+        
     <div class="pastValue">Value on:<span id="past-value-date"></span>was<span id="past-value"></span></div>
-
-    <div class="calender"></div>
     
     <section class="graph"></section>
 
@@ -41,7 +54,6 @@
             <a href="https://crypto.com/">Crypto.com</a>
           </ui>
     </card>
-
 
     <script src="https://momentjs.com/"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
