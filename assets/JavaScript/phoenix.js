@@ -1,16 +1,25 @@
+// Creates moment objects for the test data
+date1 = moment("3/31/2022", "MM/DD/YYYY");
+dates = [date1];
+for (let i=0; i < 9; i++) {
+    dates.push(moment(`4/${i+1}/2022`, "MM/DD/YYYY"));
+}
+
 testArray = [
-    {index: 1, price: 52, open: 52, close: 53, date: "3/31/2022"},
-    {index: 2, price: 51, open: 52, close: 50, date: "4/1/2022"},
-    {index: 3, price: 45, open: 48, close: 44, date: "4/2/2022"},
-    {index: 4, price: 48, open: 45, close: 51, date: "4/3/2022"},
-    {index: 5, price: 63, open: 52, close: 63, date: "4/4/2022"},
-    {index: 6, price: 59, open: 62, close: 56, date: "4/5/2022"},
-    {index: 7, price: 56, open: 55, close: 57, date: "4/6/2022"},
-    {index: 8, price: 66, open: 58, close: 74, date: "4/7/2022"},
-    {index: 9, price: 75, open: 74, close: 76, date: "4/8/2022"}
+    {index: 1, price: 52, open: 52, close: 53, date: dates[0]},
+    {index: 2, price: 51, open: 52, close: 50, date: dates[1]},
+    {index: 3, price: 45, open: 48, close: 44, date: dates[2]},
+    {index: 4, price: 48, open: 45, close: 51, date: dates[3]},
+    {index: 5, price: 63, open: 52, close: 63, date: dates[4]},
+    {index: 6, price: 59, open: 62, close: 56, date: dates[5]},
+    {index: 7, price: 56, open: 55, close: 57, date: dates[6]},
+    {index: 8, price: 66, open: 58, close: 74, date: dates[7]},
+    {index: 9, price: 75, open: 74, close: 76, date: dates[8]}
 ];
 
+// An asynchronous function that, given an array of objects, creates a line graph
 async function createLineGraph(data) {
+    // The dimensions of the graph
     const dimensions = {
         width: window.innerWidth * 0.66,
         height: window.innerHeight * 0.33,
@@ -22,6 +31,7 @@ async function createLineGraph(data) {
         }
     }
 
+    // The dimensions of the bounds the data will display in
     dimensions.boundedWidth = dimensions.width
         - dimensions.margins.left
         - dimensions.margins.right;
@@ -29,21 +39,24 @@ async function createLineGraph(data) {
         - dimensions.margins.top
         - dimensions.margins.bottom;
 
-    const parseDate = d3.timeParse("%m/%d/%Y");
+    // const parseDate = d3.timeParse("%m/%d/%Y");
 
-    function yAccessor(dPoint) {
-        return dPoint["price"];
+    // These are the functions for this function to access X and Y values
+    function yAccessor(d) {
+        return d["price"];
     }
 
-    function xAccessor(dPoint) {
-        return parseDate(dPoint["date"]);
+    function xAccessor(d) {
+        return d["date"];
     }
 
+    // This appends the graph as a whole
     const wrapper = d3.select(".graph")
         .append("svg")
             .attr("width", dimensions.width)
             .attr("height", dimensions.height);
 
+    // This appends the bounded the data will be graphed in
     // g is the equivalent of a div element but for svg elements
     const bounds = wrapper.append("g")
             .style("transform", `translate(${
@@ -52,7 +65,7 @@ async function createLineGraph(data) {
                 dimensions.margins.top
             }px)`);
 
-    // Create scales
+    // Create the scales based the data to be graphed
     const yScale = d3.scaleLinear()
         .domain(d3.extent(data, yAccessor))
         .range([dimensions.boundedHeight, 0]);
@@ -61,7 +74,7 @@ async function createLineGraph(data) {
         .domain(d3.extent(data, xAccessor))
         .range([0, dimensions.boundedWidth]);
     
-    // Draw data
+    // Draws data
     const lineGenerator = d3.line()
             .x(d => xScale(xAccessor(d)))
             .y(d => yScale(yAccessor(d)));
@@ -72,7 +85,7 @@ async function createLineGraph(data) {
             .attr("stroke", "cornflowerblue")
             .attr("stroke-width", 3);
 
-    // Draw peripherals
+    // Draws peripherals
     const yAxisGenerator = d3.axisLeft()
         .scale(yScale);
 
@@ -93,7 +106,6 @@ async function createLineGraph(data) {
 
 
 async function createCandlestickGraph(data) {
-    console.log(data);
     const dimensions = {
         width: window.innerWidth * 0.66,
         height: window.innerHeight * 0.33,
@@ -102,7 +114,7 @@ async function createCandlestickGraph(data) {
             right: 20,
             bottom: 40,
             left: 60,
-            candleGap: 3
+            candleGap: 10
         }
     }
 
@@ -114,11 +126,10 @@ async function createCandlestickGraph(data) {
         - dimensions.margins.bottom;
     dimensions.candlestickWidth = (dimensions.boundedWidth / data.length) - dimensions.margins.candleGap;
 
-    const parseDate = d3.timeParse("%m/%d/%Y");
+    // const parseDate = d3.timeParse("%m/%d/%Y");
 
-    function yAccessor(dPoint) {
-        console.log(dPoint);
-        return [dPoint["open"], dPoint["close"]];
+    function yAccessor(d) {
+        return [d["open"], d["close"]];
     }
 
     // function yAccessorOpen(dPoint) {
@@ -130,8 +141,8 @@ async function createCandlestickGraph(data) {
     //     return dPoint["close"];
     // }
 
-    function xAccessor(dPoint) {
-        return parseDate(dPoint["date"]);
+    function xAccessor(d) {
+        return d["date"];
     }
 
 
@@ -149,7 +160,7 @@ async function createCandlestickGraph(data) {
             }px)`);
 
     const yScale = d3.scaleLinear()
-        .domain(d3.extent(data, yAccessor))
+        .domain(d3.extent(data, yAccessor[1]))
         .range([dimensions.boundedHeight, 0]);
         
     const xScale = d3.scaleTime()
@@ -161,7 +172,7 @@ async function createCandlestickGraph(data) {
     const colors = ["#4daf4a", "#999999", "#e41a1c"];
 
     const xIncrement = dimensions.boundedWidth / Object.keys(data).length;
-    console.log(xIncrement);
+    const leftOffset = xIncrement / 2;
 
     const g = bounds.append("g")
             .attr("stroke-linecap", "round")
@@ -169,7 +180,7 @@ async function createCandlestickGraph(data) {
         .selectAll("g")
         .data(data)
         .join("g")
-            .attr("transform", d => `translate(${xIncrement * (1+data.indexOf(d))},0)`);
+            .attr("transform", d => `translate(${(xIncrement * (1+data.indexOf(d))) - leftOffset},0)`);
 
     // g.append("line")
     //     .attr("y1", d => yScale(yAccessor[]))
