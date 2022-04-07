@@ -21,22 +21,23 @@
         <button href="#">% Change</button>
 
     </nav>
+      <div class="cardContainer">
+         <div class="curValue">
+            <card>Current Value:<span id="current-value"></span></card>
+         </div>
 
-    <div class="curValue">
-        <card>Current Value:<span id="current-value"></span>
-        </card>
-    </div>
+         <div class="pastValue">Value on:<span id="past-value-date"></span>was<span id="past-value"></span></div>
 
-    <div class="dropdown">
-        <button>Select A Date</button>
-        <div class="dropdown-content">
+         <div class="dropdown">
+            <button>Select A Date</button>
+            <section class="dropdown-content">
             <a href="#">1 Day Ago</a>
             <a href="#">Last Month</a>
             <a href="#">Last Year</a>
-        </div>
-    </div>
+            </section>
+      </div>
         
-    <div class="pastValue">Value on:<span id="past-value-date"></span>was<span id="past-value"></span></div>
+    
     
     <section class="center-g">
         <div class="graph"></div>
