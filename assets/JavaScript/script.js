@@ -6,15 +6,15 @@ for (let i=0; i < 9; i++) {
 }
 
 testArray = [
-    {index: 1, price: 52, open: 52, close: 53, Day: Days[0]},
-    {index: 2, price: 51, open: 52, close: 50, Day: Days[1]},
-    {index: 3, price: 45, open: 48, close: 44, Day: Days[2]},
-    {index: 4, price: 48, open: 45, close: 51, Day: Days[3]},
-    {index: 5, price: 63, open: 52, close: 63, Day: Days[4]},
-    {index: 6, price: 59, open: 62, close: 56, Day: Days[5]},
-    {index: 7, price: 56, open: 55, close: 57, Day: Days[6]},
-    {index: 8, price: 66, open: 58, close: 74, Day: Days[7]},
-    {index: 9, price: 75, open: 74, close: 76, Day: Days[8]}
+    {index: 1, price: 52, StartDay: 52, EndDay: 53, Day: Days[0]},
+    {index: 2, price: 51, StartDay: 52, EndDay: 50, Day: Days[1]},
+    {index: 3, price: 45, StartDay: 48, EndDay: 44, Day: Days[2]},
+    {index: 4, price: 48, StartDay: 45, EndDay: 51, Day: Days[3]},
+    {index: 5, price: 63, StartDay: 52, EndDay: 63, Day: Days[4]},
+    {index: 6, price: 59, StartDay: 62, EndDay: 56, Day: Days[5]},
+    {index: 7, price: 56, StartDay: 55, EndDay: 57, Day: Days[6]},
+    {index: 8, price: 66, StartDay: 58, EndDay: 74, Day: Days[7]},
+    {index: 9, price: 75, StartDay: 74, EndDay: 76, Day: Days[8]}
 ];
 
 // An asynchronous function that, given an array of objects, creates a line graph
@@ -39,15 +39,17 @@ async function createLineGraph(data) {
         - dimensions.margins.top
         - dimensions.margins.bottom;
 
-    // const parseDate = d3.timeParse("%m/%d/%Y");
+    const parseDate = d3.timeParse("%m/%d/%Y");
+
+    document.querySelector(".graph").innerHTML = "";
 
     // These are the functions for this function to access X and Y values
     function yAccessor(d) {
-        return d["price"];
+        return d["StartDay"];
     }
 
     function xAccessor(d) {
-        return d["Day"];
+        return parseDate(d["Day"]);
     }
 
     // This appends the graph as a whole
@@ -126,10 +128,52 @@ async function createCandlestickGraph(data) {
         - dimensions.margins.bottom;
     dimensions.candlestickWidth = (dimensions.boundedWidth / data.length) - dimensions.margins.candleGap;
 
-    // const parseDate = d3.timeParse("%m/%d/%Y");
+    let yMin;
+    let yMax;
+    // console.log(yMin == undefined);
+
+    function findMinMax(data) {
+        if (yMin == undefined || yMax == undefined) {
+            console.log("Initial defining");
+            if (data[0].StartDay > data[0].EndDay) {
+                yMin = data[0].EndDay;
+                yMax = data[0].StartDay
+            } else {
+                yMin = data[0].StartDay;
+                yMax = data[0].EndDay;
+            }
+        }
+        for (let i = 1; i < data.length; i++) {
+            if (data[i].StartDay < yMin) {
+                console.log("New min | StartDay");
+                yMin = data[i].StartDay;
+            } else if (data[i].EndDay < yMin) {
+                console.log("New min | EndDay");
+                yMin = data[i].EndDay;
+            } else if (data[i].StartDay > yMax) {
+                console.log("New max | StartDay");
+                yMax = data[i].StartDay;
+            } else if (data[i].EndDay > yMax) {
+                console.log("New max | EndDay");
+                yMax = data[i].EndDay;
+            }
+        }
+    }
+
+    findMinMax(data);
+    console.log([yMin, yMax]);
+
+    const parseDate = d3.timeParse("%m/%d/%Y");
+
+    document.querySelector(".graph").innerHTML = "";
 
     function yAccessor(d) {
-        return [d["open"], d["close"]];
+        return [d["StartDay"], d["EndDay"]];
+    }
+
+    function y1Acessor(d) {
+        console.log(d.StartDay);
+        return d.StartDay;
     }
 
     // function yAccessorOpen(dPoint) {
@@ -142,7 +186,7 @@ async function createCandlestickGraph(data) {
     // }
 
     function xAccessor(d) {
-        return d["Day"];
+        return parseDate(d["Day"]);
     }
 
 
@@ -162,7 +206,7 @@ async function createCandlestickGraph(data) {
     const yScale = d3.scaleLinear()
         .domain(d3.extent(data, yAccessor))
         .range([dimensions.boundedHeight, 0]);
-    // console.log(d3.max(data));
+    console.log(d3.extent(data, yAccessor));
         
     const xScale = d3.scaleTime()
         .domain(d3.extent(data, xAccessor))
@@ -188,11 +232,16 @@ async function createCandlestickGraph(data) {
     //     .attr("y2", d => y(d.high));
 
     g.append("line")
-        .attr("y1", d => yAccessor(d)[0])
-        .attr("y2", d => yAccessor(d)[1])
+        .attr("y1", d => {
+            console.log(d);
+            return yAccessor(d);
+        })
+        .attr("y2", d => {
+            return yAccessor(d);
+        })
         .attr("stroke-width", dimensions.candlestickWidth)
-        .attr("stroke", d => d.open > d.close ? colors[0]
-            : d.close > d.open ? colors[2]
+        .attr("stroke", d => d.StartDay > d.EndDay ? colors[0]
+            : d.EndDay > d.StartDay ? colors[2]
             : colors[1]);
 
     // Yo = y-open; Yc = y-close; .attr("stroke") is assigning the color based on if it's positive, negative, or no change
@@ -221,5 +270,58 @@ async function createCandlestickGraph(data) {
             .attr("class", "axis");
 }
 
-createLineGraph(testArray);
-createCandlestickGraph(testArray);
+
+// var currentValue = document.querySelector('#curent-value')
+// var btcButton = document.getElementById('#')
+
+
+var requestUrl = 'https://api.coingecko.com/api/v3/coins/bitcoin';
+var btcHistoryUrl = 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=30&interval=daily';
+
+function getApi(requestUrl) {
+    fetch(requestUrl)
+    .then(function(requestUrl) {
+        return requestUrl.json();
+    }).then(function(data) {
+        btcHistoryPrice(btcHistoryUrl, data) 
+        return console.log(data);
+             
+    })
+} 
+
+getApi(requestUrl)
+    
+// I need to fetch current value, the start price and the end price for the day.
+// run through a for loop for one month
+// create an empty array of objects. 
+// Each itteration create a pricepoint, high and low. Then pass this to Phoenix's function. 
+
+function btcHistoryPrice(btcHistoryUrl, currentPrice) {
+    fetch(btcHistoryUrl)
+    .then(function(btcHistoryUrl) {
+        return btcHistoryUrl.json();
+    }).then(function(data) {
+        let arr = [];
+             
+        for (var i = 0; i < data.prices.length; i++) {
+            if(i < data.prices.length - 1) {
+                let date = moment(data.prices[i][0]).format("L");
+                let nextDay = i+1;
+                let coinData = {
+                    Day: date, 
+                    StartDay: data.prices[i][1], 
+                    EndDay: data.prices[nextDay][1]
+                }
+
+                arr.push(coinData)
+            }
+        }
+        console.log(arr)
+        console.log(currentPrice.market_data.current_price.usd)
+        createCandlestickGraph(arr);
+    })
+}
+
+
+
+
