@@ -37,7 +37,7 @@ body {
 }
 
 /* stylizing the current value and past value cards */
-div card{
+div card {
   background:  #475977ff;
   height: 20px;
   width: 150px;
