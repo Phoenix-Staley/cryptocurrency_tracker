@@ -87,13 +87,16 @@ div card{
     align-items: center;
   }
 
-  div h4 {
+  h4 {
     color: white;
-    width: 1000px;
+    width: 100%;
     font-size: 16px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
   }
 
-  ui a {
+  ul a {
     font-size: 16px;
     justify-content: center;
     align-items: center;
