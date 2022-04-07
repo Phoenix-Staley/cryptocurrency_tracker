@@ -21,7 +21,7 @@ testArray = [
 async function createLineGraph(data) {
     // The dimensions of the graph
     const dimensions = {
-        width: window.innerWidth * 0.66,
+        width: window.innerWidth * 0.75,
         height: window.innerHeight * 0.33,
         margins: {
             top: 15,
@@ -107,7 +107,7 @@ async function createLineGraph(data) {
 
 async function createCandlestickGraph(data) {
     const dimensions = {
-        width: window.innerWidth * 0.66,
+        width: window.innerWidth * 0.75,
         height: window.innerHeight * 0.33,
         margins: {
             top: 15,
@@ -160,8 +160,9 @@ async function createCandlestickGraph(data) {
             }px)`);
 
     const yScale = d3.scaleLinear()
-        .domain(d3.extent(data, yAccessor[1]))
+        .domain(d3.extent(data, yAccessor))
         .range([dimensions.boundedHeight, 0]);
+    // console.log(d3.max(data));
         
     const xScale = d3.scaleTime()
         .domain(d3.extent(data, xAccessor))
