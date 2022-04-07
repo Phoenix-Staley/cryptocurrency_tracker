@@ -1,57 +1,33 @@
-// Creates moment objects for the test data
-Day1 = moment("3/31/2022", "MM/DD/YYYY");
-Days = [Day1];
-for (let i=0; i < 9; i++) {
-    Days.push(moment(`4/${i+1}/2022`, "MM/DD/YYYY"));
+// The dimensions of the graph
+const defaultDimensions = {
+    width: window.innerWidth * 0.75,
+    height: window.innerHeight * 0.33,
+    margins: {
+        top: 15,
+        right: 20,
+        bottom: 20,
+        left: 60,
+        candleGap: 10
+    }
 }
 
-testArray = [
-    {index: 1, price: 52, StartDay: 52, EndDay: 53, Day: Days[0]},
-    {index: 2, price: 51, StartDay: 52, EndDay: 50, Day: Days[1]},
-    {index: 3, price: 45, StartDay: 48, EndDay: 44, Day: Days[2]},
-    {index: 4, price: 48, StartDay: 45, EndDay: 51, Day: Days[3]},
-    {index: 5, price: 63, StartDay: 52, EndDay: 63, Day: Days[4]},
-    {index: 6, price: 59, StartDay: 62, EndDay: 56, Day: Days[5]},
-    {index: 7, price: 56, StartDay: 55, EndDay: 57, Day: Days[6]},
-    {index: 8, price: 66, StartDay: 58, EndDay: 74, Day: Days[7]},
-    {index: 9, price: 75, StartDay: 74, EndDay: 76, Day: Days[8]}
-];
-
-// An asynchronous function that, given an array of objects, creates a line graph
-async function createLineGraph(data) {
-    // The dimensions of the graph
-    const dimensions = {
-        width: window.innerWidth * 0.75,
-        height: window.innerHeight * 0.33,
-        margins: {
-            top: 15,
-            right: 20,
-            bottom: 40,
-            left: 60
-        }
-    }
-
+function addBounds(dimensions) {
     // The dimensions of the bounds the data will display in
     dimensions.boundedWidth = dimensions.width
-        - dimensions.margins.left
-        - dimensions.margins.right;
+    - dimensions.margins.left
+    - dimensions.margins.right;
     dimensions.boundedHeight = dimensions.height
-        - dimensions.margins.top
-        - dimensions.margins.bottom;
+    - dimensions.margins.top
+    - dimensions.margins.bottom;
 
-    const parseDate = d3.timeParse("%m/%d/%Y");
+    return dimensions;
+}
 
+function clearGraphs() {
     document.querySelector(".graph").innerHTML = "";
+}
 
-    // These are the functions for this function to access X and Y values
-    function yAccessor(d) {
-        return d["StartDay"];
-    }
-
-    function xAccessor(d) {
-        return parseDate(d["Day"]);
-    }
-
+function appendGraph(dimensions, topMargin) {
     // This appends the graph as a whole
     const wrapper = d3.select(".graph")
         .append("svg")
@@ -63,14 +39,56 @@ async function createLineGraph(data) {
     const bounds = wrapper.append("g")
             .style("transform", `translate(${
                 dimensions.margins.left
-            }px, ${
-                dimensions.margins.top
-            }px)`);
+            }px, ${topMargin}px)`);
+    
+    return [wrapper, bounds];
+}
+
+function drawAxes(yScale, xScale, bounds, dimensions) {
+    const yAxisGenerator = d3.axisLeft()
+        .scale(yScale);
+
+    const xAxisGenerator = d3.axisBottom()
+        .scale(xScale);
+
+    // Creates 2 groups and draws the x and y axes in them
+    const yAxis = bounds.append("g")
+        .call(yAxisGenerator)
+            .attr("class", "axis");
+
+    const xAxis = bounds.append("g")
+        .call(xAxisGenerator)
+            .style("transform", `translateY(${dimensions.boundedHeight}px)`)
+            .attr("class", "axis");
+}
+
+const parseDate = d3.timeParse("%m/%d/%Y");
+
+// An asynchronous function that, given an array of objects, creates a line graph
+async function createLineGraph(data) {
+    let dimensions = defaultDimensions;
+    dimensions = addBounds(dimensions);
+
+    clearGraphs();
+
+    // These are the functions for this function to access X and Y values
+    function yAccessor(d) {
+        return d["StartDay"];
+    }
+
+    function xAccessor(d) {
+        return parseDate(d["Day"]);
+    }
+
+    const graph = appendGraph(dimensions, dimensions.margins.top);
+    const wrapper = graph[0];
+    const bounds = graph[1];
 
     // Create the scales based the data to be graphed
     const yScale = d3.scaleLinear()
         .domain(d3.extent(data, yAccessor))
         .range([dimensions.boundedHeight, 0]);
+    console.log(d3.extent(data, yAccessor));
     
     const xScale = d3.scaleTime()
         .domain(d3.extent(data, xAccessor))
@@ -88,186 +106,102 @@ async function createLineGraph(data) {
             .attr("stroke-width", 3);
 
     // Draws peripherals
+    drawAxes(yScale, xScale, bounds, dimensions);
+}
+async function createCandlestickGraph(data) {
+    let dimensions = defaultDimensions;
+    dimensions = addBounds(dimensions);
+    dimensions.candlestickWidth = (dimensions.boundedWidth / data.length) - dimensions.margins.candleGap;
+    const colors = ["#4daf4a", "#999999", "#e41a1c"];
+
+    // Create arrays for the yOpen, yClose, and X values
+    const Yo = data.map(d => {
+        return d.StartDay;
+    });
+    const Yc = data.map(d => {
+        return d.EndDay;
+    });
+    const X = data.map(d => {
+        return parseDate(d.Day);
+    });
+
+    function getMinY(yOpens, yCloses) {
+        const minOpen = d3.min(Yo);
+        const minClose = d3.min(Yc);
+        if (minOpen > minClose) {
+            return minClose;
+        } else {
+            return minOpen;
+        }
+    }
+    function getMaxY(yOpens, yCloses) {
+        const maxOpen = d3.max(Yo);
+        const maxClose = d3.max(Yc);
+        if (maxOpen > maxClose) {
+            return maxOpen;
+        } else {
+            return maxClose;
+        }
+    }
+
+    const yMin = getMinY(Yo, Yc);
+    const yMax = getMaxY(Yo, Yc);
+    console.log([yMin, yMax]);
+
+    const I = d3.range(X.length); // An array for each data point's index
+    const yDomain = [yMin, yMax];
+    const xDomain = [d3.min(X), d3.max(X)];
+    const yRange = [dimensions.height - dimensions.margins.bottom, dimensions.margins.top];
+    const xRange = [dimensions.margins.left, dimensions.width - dimensions.margins.right];
+    console.log(yRange);
+    console.log(dimensions.height);
+    console.log(dimensions.margins.bottom);
+    
+    const xScale = d3.scaleTime(xDomain, xRange);
+    const yScale = d3.scaleLinear(yDomain, yRange);
+    const xAxis = d3.axisBottom(xScale);
+    // const yAxis = d3.axisLeft(yScale);
+
+    clearGraphs();
+
+    const graph = appendGraph(dimensions, 0);
+    const wrapper = graph[0];
+    const bounds = graph[1];
+
+    wrapper.append("g")
+            .attr("transform", `translate(0,${dimensions.height - dimensions.margins.bottom})`)
+        .call(xAxis);
+
     const yAxisGenerator = d3.axisLeft()
         .scale(yScale);
 
-    const xAxisGenerator = d3.axisBottom()
-        .scale(xScale);
-    
-    // Creates 2 groups and draws the x and y axes in them
     const yAxis = bounds.append("g")
         .call(yAxisGenerator)
             .attr("class", "axis");
 
-    const xAxis = bounds.append("g")
-        .call(xAxisGenerator)
-            .style("transform", `translateY(${dimensions.boundedHeight}px)`)
-            .attr("class", "axis");
-}
-
-
-
-async function createCandlestickGraph(data) {
-    const dimensions = {
-        width: window.innerWidth * 0.75,
-        height: window.innerHeight * 0.33,
-        margins: {
-            top: 15,
-            right: 20,
-            bottom: 40,
-            left: 60,
-            candleGap: 10
-        }
-    }
-
-    dimensions.boundedWidth = dimensions.width
-        - dimensions.margins.left
-        - dimensions.margins.right;
-    dimensions.boundedHeight = dimensions.height
-        - dimensions.margins.top
-        - dimensions.margins.bottom;
-    dimensions.candlestickWidth = (dimensions.boundedWidth / data.length) - dimensions.margins.candleGap;
-
-    let yMin;
-    let yMax;
-    // console.log(yMin == undefined);
-
-    function findMinMax(data) {
-        if (yMin == undefined || yMax == undefined) {
-            console.log("Initial defining");
-            if (data[0].StartDay > data[0].EndDay) {
-                yMin = data[0].EndDay;
-                yMax = data[0].StartDay
-            } else {
-                yMin = data[0].StartDay;
-                yMax = data[0].EndDay;
-            }
-        }
-        for (let i = 1; i < data.length; i++) {
-            if (data[i].StartDay < yMin) {
-                console.log("New min | StartDay");
-                yMin = data[i].StartDay;
-            } else if (data[i].EndDay < yMin) {
-                console.log("New min | EndDay");
-                yMin = data[i].EndDay;
-            } else if (data[i].StartDay > yMax) {
-                console.log("New max | StartDay");
-                yMax = data[i].StartDay;
-            } else if (data[i].EndDay > yMax) {
-                console.log("New max | EndDay");
-                yMax = data[i].EndDay;
-            }
-        }
-    }
-
-    findMinMax(data);
-    console.log([yMin, yMax]);
-
-    const parseDate = d3.timeParse("%m/%d/%Y");
-
-    document.querySelector(".graph").innerHTML = "";
-
-    function yAccessor(d) {
-        return [d["StartDay"], d["EndDay"]];
-    }
-
-    function y1Acessor(d) {
-        console.log(d.StartDay);
-        return d.StartDay;
-    }
-
-    // function yAccessorOpen(dPoint) {
-    //     console.log(dPoint);
-    //     return dPoint["open"];
-    // }
-
-    // function yAccessorClose(dPoint) {
-    //     return dPoint["close"];
-    // }
-
-    function xAccessor(d) {
-        return parseDate(d["Day"]);
-    }
-
-
-
-    const wrapper = d3.select(".graph")
-        .append("svg")
-            .attr("width", dimensions.width)
-            .attr("height", dimensions.height);
-
-    const bounds = wrapper.append("g")
-            .style("transform", `translate(${
-                dimensions.margins.left
-            }px, ${
-                dimensions.margins.top
-            }px)`);
-
-    const yScale = d3.scaleLinear()
-        .domain(d3.extent(data, yAccessor))
-        .range([dimensions.boundedHeight, 0]);
-    console.log(d3.extent(data, yAccessor));
-        
-    const xScale = d3.scaleTime()
-        .domain(d3.extent(data, xAccessor))
-        .range([0, dimensions.boundedWidth]);
-
     // Draw data
-
-    const colors = ["#4daf4a", "#999999", "#e41a1c"];
-
     const xIncrement = dimensions.boundedWidth / Object.keys(data).length;
     const leftOffset = xIncrement / 2;
 
     const g = bounds.append("g")
-            .attr("stroke-linecap", "round")
+            .attr("stroke-linecap", "square")
             .attr("stroke", "black")
         .selectAll("g")
         .data(data)
         .join("g")
             .attr("transform", d => `translate(${(xIncrement * (1+data.indexOf(d))) - leftOffset},0)`);
 
-    // g.append("line")
-    //     .attr("y1", d => yScale(yAccessor[]))
-    //     .attr("y2", d => y(d.high));
-
     g.append("line")
-        .attr("y1", d => {
-            console.log(d);
-            return yAccessor(d);
-        })
-        .attr("y2", d => {
-            return yAccessor(d);
-        })
-        .attr("stroke-width", dimensions.candlestickWidth)
-        .attr("stroke", d => d.StartDay > d.EndDay ? colors[0]
-            : d.EndDay > d.StartDay ? colors[2]
+            .attr("y1", d => {
+                return yScale(d.StartDay)
+            })
+            .attr("y2", d => {
+                return yScale(d.EndDay)
+            })
+            .attr("stroke-width", dimensions.candlestickWidth)
+            .attr("stroke", d => d.StartDay > d.EndDay ? colors[2]
+            : d.EndDay > d.StartDay ? colors[0]
             : colors[1]);
-
-    // Yo = y-open; Yc = y-close; .attr("stroke") is assigning the color based on if it's positive, negative, or no change
-    // bounds.append("line")
-    //   .attr("y1", d => yScale(yAccessor(d)[0]))
-    //   .attr("y2", d => yScale(yAccessor(d)[1]))
-    //   .attr("stroke-width", xScale.bandwidth())
-    //   .attr("stroke", d => yAccessor(d)[0] > yAccessor(d)[1] ? colors[0]
-    //     : yAccessor(d)[0] < yAccessorOpen(d)[1] ? colors[2]
-    //     : colors[1]);
-
-    const yAxisGenerator = d3.axisLeft()
-        .scale(yScale);
-
-    const xAxisGenerator = d3.axisBottom()
-        .scale(xScale);
-
-    // Creates 2 groups and draws the x and y axes in them
-    const yAxis = bounds.append("g")
-        .call(yAxisGenerator)
-            .attr("class", "axis");
-
-    const xAxis = bounds.append("g")
-        .call(xAxisGenerator)
-            .style("transform", `translateY(${dimensions.boundedHeight}px)`)
-            .attr("class", "axis");
 }
 
 
@@ -284,7 +218,7 @@ function getApi(requestUrl) {
         return requestUrl.json();
     }).then(function(data) {
         btcHistoryPrice(btcHistoryUrl, data) 
-        return console.log(data);
+        return data;
              
     })
 } 
@@ -317,11 +251,7 @@ function btcHistoryPrice(btcHistoryUrl, currentPrice) {
             }
         }
         console.log(arr)
-        console.log(currentPrice.market_data.current_price.usd)
+        // console.log(currentPrice.market_data.current_price.usd)
         createCandlestickGraph(arr);
     })
 }
-
-
-
-
