@@ -57,7 +57,7 @@ div card{
 .dropdown {
     display: block;
     position: relative;
-    background-color: white;
+    background-color: cornflowerblue;
   }
   .dropdown-content {
     display: none;
@@ -65,7 +65,7 @@ div card{
     width: 100%;
     overflow: auto;
     box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
-    background-color: white;
+    background-color:cornflowerblue;
   }
   .dropdown:hover .dropdown-content {
     display: block;
@@ -78,5 +78,23 @@ div card{
   }
   .dropdown-content a:hover {
     color: #080808;
-    background-color: #00A4BD;
+    background-color: white;
+  }
+
+  .linkContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  div h4 {
+    color: white;
+    width: 1000px;
+    font-size: 16px;
+  }
+
+  ui a {
+    font-size: 16px;
+    justify-content: center;
+    align-items: center;
   }
