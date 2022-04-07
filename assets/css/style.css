@@ -81,7 +81,7 @@ div card {
     background-color: white;
   }
 
-  .linkContainer {
+  .links {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -90,14 +90,21 @@ div card {
   h4 {
     color: white;
     width: 100%;
-    font-size: 16px;
+    font-size: 18px;
     display: flex;
     align-content: center;
     justify-content: center;
   }
 
+  .links li {
+    display: inline-block;
+  }
+
   ul a {
-    font-size: 16px;
-    justify-content: center;
-    align-items: center;
+    font-size: 18px;
+    padding: 20px;
+  }
+
+  .fa-coins {
+    color: gold;
   }
