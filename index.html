@@ -16,17 +16,21 @@
 </head>
 
 <body>
+
     <nav>
         <button href="#">BTC</button>
         <button href="#">% Change</button>
-
     </nav>
+
       <div class="cardContainer">
          <div class="curValue">
             <card>Current Value:<span id="current-value"></span></card>
          </div>
       </div>
+
+        <div class="pastValue">
          <card>Value on:<span id="past-value-date"></span>was<span id="past-value"></span></card>
+        </div> 
 
          <div class="dropdown">
             <button>Select A Date</button>
@@ -52,7 +56,7 @@
           </ui>
     </card>
 
-    <script src="https://momentjs.com/"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="./assets/JavaScript/phoenix.js"></script>
     <script src="./assets/JavaScript/jesse.js"></script>
