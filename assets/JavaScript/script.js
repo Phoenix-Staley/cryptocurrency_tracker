@@ -207,20 +207,34 @@ async function createCandlestickGraph(data) {
             : colors[1]);
 }
 
-var requestUrl = 'https://api.coingecko.com/api/v3/coins/bitcoin';
-var btcHistoryUrl = 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=30&interval=daily';
+const requestUrl = 'https://api.coingecko.com/api/v3/coins/bitcoin';
+const btcHistoryUrl = 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=30&interval=daily';
+const changeGraphBtn = document.getElementById("change-graph");
+
+function changeGraph() {
+    const preferredGraph = localStorage.getItem("preferredGraph");
+
+    if (preferredGraph === "line") {
+        localStorage.setItem("preferredGraph", "candlestick");
+    } else {
+        localStorage.setItem("preferredGraph", "line");
+    }
+
+    location.reload();
+}
 
 function loadPage() {
     if (localStorage.getItem("preferredGraph") === null) {
         localStorage.setItem("preferredGraph", "line");
     }
 
+    changeGraphBtn.onclick = changeGraph;
+
     getApi(btcHistoryUrl);
 }
 
 
 const currentValueEl = document.getElementById("current-value");
-const changeGraphBtn = document.getElementById("change-graph");
 // var btcButton = document.getElementById('#')
 
 
