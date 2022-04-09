@@ -10,13 +10,6 @@ WHEN I click on the dashboard,
 I CAN view weekly, monthly, and yearly price histories of bitcoin
 SO THAT I can analyze how well it is doing over time
 
-https://www.coingecko.com/en/coins/bitcoin/usd#panel
-
-https://axios-http.com/docs/intro
-
-Bitcoin white paper: https://bitcoin.org/bitcoin.pdf
-
-
 ## PROJECT DESCRIPTION 1-
 
 When you open the application it will display the bitcoin price in real time on a chart. You will be able to click on different tabs that will display a bitcoin price chart in real time, over the last week, last month and last year. This provides potential users with another resource to use when researching investment opportunities. 
@@ -41,8 +34,8 @@ Create a fetch request, then a function for handling that response to change the
 
 Which blockchain has the most new developers using it. When you open the application it will show the top/top-3 blockchains that developers have been starting new projects in. It will show real time updated charts along with historical charts. 
 
-Combine crypto tracker and github
+<a href=https://phoenix-staley.github.io/cryptocurrency_tracker>Cryptocurrency Tracker</a>
 
--possible websites to use
+<img src="./images/.png" alt=""/>
 
 

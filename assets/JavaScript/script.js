@@ -230,7 +230,7 @@ function loadPage() {
 
     changeGraphBtn.onclick = changeGraph;
 
-    getApi(btcHistoryUrl);
+    getData(btcHistoryUrl);
 }
 
 
@@ -240,23 +240,39 @@ const currentValueEl = document.getElementById("current-value");
 
 
 
-function getApi(requestUrl) {
+function getData(requestUrl) {
     fetch(requestUrl)
     .then(function(requestUrl) {
         return requestUrl.json();
     }).then(function(data) {
-        btcHistoryPrice(btcHistoryUrl, data) 
+        getBTChistory(btcHistoryUrl, data) 
         return data;
              
     })
 } 
+
+var fetchButton = document.getElementById("releases")
+
+function getReleases() {
+    fetch("https://api.github.com/repos/bitcoin/bitcoin/releases?per_page=100")
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+        console.log(data);
+        fetchButton.textContent = " " + JSON.stringify(data.length)
+    });
+           
+}
+
+fetchButton.onclick = getReleases;
     
 // I need to fetch current value, the start price and the end price for the day.
 // run through a for loop for one month
 // create an empty array of objects. 
 // Each itteration create a pricepoint, high and low. Then pass this to Phoenix's function. 
 
-function btcHistoryPrice(btcHistoryUrl, currentPrice) {
+function getBTChistory(btcHistoryUrl, currentPrice) {
     fetch(btcHistoryUrl)
     .then(function(btcHistoryUrl) {
         return btcHistoryUrl.json();

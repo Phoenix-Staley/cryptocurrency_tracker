@@ -6,7 +6,7 @@
 var requestUrl = 'https://api.coingecko.com/api/v3/coins/bitcoin';
 var btcHistoryUrl = 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=30&interval=daily';
 
-function getApi(requestUrl) {
+function getData(requestUrl) {
     fetch(requestUrl)
     .then(function(requestUrl) {
         return requestUrl.json();
@@ -17,7 +17,7 @@ function getApi(requestUrl) {
     })
 } 
 
-getApi(requestUrl)
+getData(requestUrl)
     
 // I need to fetch current value, the start price and the end price for the day.
 // run through a for loop for one month
