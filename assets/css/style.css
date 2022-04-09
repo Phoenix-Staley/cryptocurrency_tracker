@@ -19,6 +19,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top:2%;
 }
 
 
@@ -77,4 +78,15 @@ ul a {
 
 .fa-coins {
   color: gold;
+}
+
+.changeGraph {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 25px;
+};
+
+#change-graph {
+  background: white;
 }
