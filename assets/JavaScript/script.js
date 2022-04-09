@@ -231,6 +231,7 @@ function loadPage() {
     changeGraphBtn.onclick = changeGraph;
 
     getData(btcHistoryUrl);
+    getReleases();
 }
 
 
@@ -260,12 +261,9 @@ function getReleases() {
     })
     .then(function (data) {
         console.log(data);
-        fetchButton.textContent = " " + JSON.stringify(data.length)
-    });
-           
+        fetchButton.textContent = JSON.stringify(data.length) + " ";
+    });    
 }
-
-fetchButton.onclick = getReleases;
     
 // I need to fetch current value, the start price and the end price for the day.
 // run through a for loop for one month
