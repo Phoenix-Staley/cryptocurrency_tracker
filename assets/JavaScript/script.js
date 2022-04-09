@@ -37,12 +37,9 @@ function appendGraph(dimensions) {
     // This appends the bounded the data will be graphed in
     // g is the equivalent of a div element but for svg elements
     const bounds = wrapper.append("g")
-            // .attr("width", dimensions.boundedWidth)
-            // .attr("height", dimensions.boundedHeight)
             .style("transform", `translate(${
                 dimensions.margins.left
             }px, ${dimensions.margins.top}px)`);
-    // console.log(dimensions.boundedHeight, dimensions.boundedWidth)
     
     return [wrapper, bounds];
 }
@@ -111,6 +108,7 @@ async function createLineGraph(data) {
     // Draws peripherals
     drawAxes(yScale, xScale, bounds, dimensions);
 }
+
 async function createCandlestickGraph(data) {
     let dimensions = defaultDimensions;
     dimensions = addBounds(dimensions);
@@ -149,19 +147,16 @@ async function createCandlestickGraph(data) {
 
     const yMin = getMinY(Yo, Yc);
     const yMax = getMaxY(Yo, Yc);
-    console.log([yMin, yMax]);
 
-    const I = d3.range(X.length); // An array for each data point's index
     const yDomain = [yMin, yMax];
     const xDomain = [d3.min(X), d3.max(X)];
-    const yRange = [dimensions.boundedHeight - dimensions.margins.bottom, dimensions.margins.top];
-    console.log(yRange);
+    const yRange1 = [dimensions.boundedHeight - dimensions.margins.bottom, 0];
+    const yRange2 = [dimensions.height - dimensions.margins.bottom, 0];
     const xRange = [dimensions.margins.left, dimensions.width - dimensions.margins.right];
-    console.log(dimensions.height);
-    console.log(dimensions.margins.bottom);
     
     const xScale = d3.scaleTime(xDomain, xRange);
-    const yScale = d3.scaleLinear(yDomain, yRange);
+    const yScale1 = d3.scaleLinear(yDomain, yRange1);
+    const yScale2 = d3.scaleLinear(yDomain, yRange2)
     const xAxis = d3.axisBottom(xScale);
     // const yAxis = d3.axisLeft(yScale);
 
@@ -176,11 +171,12 @@ async function createCandlestickGraph(data) {
         .call(xAxis);
 
     const yAxisGenerator = d3.axisLeft()
-        .scale(yScale);
+        .scale(yScale2);
 
-    const yAxis = bounds.append("g")
+    const yAxis = wrapper.append("g")
         .call(yAxisGenerator)
-            .attr("class", "axis");
+            .attr("class", "axis")
+            .attr("transform", `translate(${dimensions.margins.left},0)`);
 
     // Draw data
     const xIncrement = dimensions.boundedWidth / Object.keys(data).length;
@@ -196,10 +192,10 @@ async function createCandlestickGraph(data) {
 
     g.append("line")
             .attr("y1", d => {
-                return yScale(d.StartDay)
+                return yScale1(d.StartDay);
             })
             .attr("y2", d => {
-                return yScale(d.EndDay)
+                return yScale1(d.EndDay);
             })
             .attr("stroke-width", dimensions.candlestickWidth)
             .attr("stroke", d => d.StartDay > d.EndDay ? colors[2]
@@ -290,7 +286,7 @@ function getBTChistory(btcHistoryUrl, currentPrice) {
                 arr.push(coinData)
             }
         }
-        // console.log(arr)
+        console.log(arr)
         // console.log(currentPrice.market_data.current_price.usd)
         currentValueEl.textContent = " $" + JSON.stringify(Math.floor(arr[29].EndDay));
         if (localStorage.getItem("preferredGraph") === "candlestick") {
