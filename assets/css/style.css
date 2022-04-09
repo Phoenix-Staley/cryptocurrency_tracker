@@ -9,6 +9,14 @@ header {
   justify-content: center;
 }
 
+button {
+  color:white;
+}
+
+button:hover {
+  color:white;
+}
+
 body {
   background-color: #0c0c0fff;
   color: #ffffffff;
@@ -87,7 +95,3 @@ ul a {
   margin: 25px;
   color: white;
 };
-
-#change-graph {
-  color: white;
-}
