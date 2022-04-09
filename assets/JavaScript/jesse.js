@@ -33,7 +33,7 @@ function btcHistoryPrice(btcHistoryUrl, currentPrice) {
              
         for (var i = 0; i < data.prices.length; i++) {
             if(i < data.prices.length - 1) {
-                let date = moment(data.prices[i][0]).format("L");
+                let date = moment(data.prices[i][0])
                 let nextDay = i+1;
                 let coinData = {
                     Day: date, 
@@ -51,5 +51,17 @@ function btcHistoryPrice(btcHistoryUrl, currentPrice) {
 }
 
 
+var fetchButton = document.getElementById("releases")
 
-
+function gitHubApi() {
+    fetch("https://api.github.com/repos/bitcoin/bitcoin/releases?per_page=100")
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+        console.log(data);
+        fetchButton.textContent = " " + JSON.stringify(data.length)
+    });
+           
+}
+fetchButton.addEventListener('click', gitHubApi)
