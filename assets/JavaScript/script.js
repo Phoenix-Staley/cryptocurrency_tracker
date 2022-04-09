@@ -27,7 +27,7 @@ function clearGraphs() {
     document.querySelector(".graph").innerHTML = "";
 }
 
-function appendGraph(dimensions, topMargin) {
+function appendGraph(dimensions) {
     // This appends the graph as a whole
     const wrapper = d3.select(".graph")
         .append("svg")
@@ -37,9 +37,12 @@ function appendGraph(dimensions, topMargin) {
     // This appends the bounded the data will be graphed in
     // g is the equivalent of a div element but for svg elements
     const bounds = wrapper.append("g")
+            // .attr("width", dimensions.boundedWidth)
+            // .attr("height", dimensions.boundedHeight)
             .style("transform", `translate(${
                 dimensions.margins.left
-            }px, ${topMargin}px)`);
+            }px, ${dimensions.margins.top}px)`);
+    // console.log(dimensions.boundedHeight, dimensions.boundedWidth)
     
     return [wrapper, bounds];
 }
@@ -80,7 +83,7 @@ async function createLineGraph(data) {
         return parseDate(d["Day"]);
     }
 
-    const graph = appendGraph(dimensions, dimensions.margins.top);
+    const graph = appendGraph(dimensions);
     const wrapper = graph[0];
     const bounds = graph[1];
 
@@ -151,9 +154,9 @@ async function createCandlestickGraph(data) {
     const I = d3.range(X.length); // An array for each data point's index
     const yDomain = [yMin, yMax];
     const xDomain = [d3.min(X), d3.max(X)];
-    const yRange = [dimensions.height - dimensions.margins.bottom, dimensions.margins.top];
-    const xRange = [dimensions.margins.left, dimensions.width - dimensions.margins.right];
+    const yRange = [dimensions.boundedHeight - dimensions.margins.bottom, dimensions.margins.top];
     console.log(yRange);
+    const xRange = [dimensions.margins.left, dimensions.width - dimensions.margins.right];
     console.log(dimensions.height);
     console.log(dimensions.margins.bottom);
     
@@ -164,7 +167,7 @@ async function createCandlestickGraph(data) {
 
     clearGraphs();
 
-    const graph = appendGraph(dimensions, 0);
+    const graph = appendGraph(dimensions);
     const wrapper = graph[0];
     const bounds = graph[1];
 
@@ -204,13 +207,38 @@ async function createCandlestickGraph(data) {
             : colors[1]);
 }
 
+const requestUrl = 'https://api.coingecko.com/api/v3/coins/bitcoin';
+const btcHistoryUrl = 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=30&interval=daily';
+const changeGraphBtn = document.getElementById("change-graph");
 
-// var currentValue = document.querySelector('#curent-value')
+function changeGraph() {
+    const preferredGraph = localStorage.getItem("preferredGraph");
+
+    if (preferredGraph === "line") {
+        localStorage.setItem("preferredGraph", "candlestick");
+    } else {
+        localStorage.setItem("preferredGraph", "line");
+    }
+
+    location.reload();
+}
+
+function loadPage() {
+    if (localStorage.getItem("preferredGraph") === null) {
+        localStorage.setItem("preferredGraph", "line");
+    }
+
+    changeGraphBtn.onclick = changeGraph;
+
+    getApi(btcHistoryUrl);
+}
+
+
+const currentValueEl = document.getElementById("current-value");
 // var btcButton = document.getElementById('#')
 
 
-var requestUrl = 'https://api.coingecko.com/api/v3/coins/bitcoin';
-var btcHistoryUrl = 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=30&interval=daily';
+
 
 function getApi(requestUrl) {
     fetch(requestUrl)
@@ -222,8 +250,6 @@ function getApi(requestUrl) {
              
     })
 } 
-
-getApi(requestUrl)
     
 // I need to fetch current value, the start price and the end price for the day.
 // run through a for loop for one month
@@ -239,9 +265,9 @@ function btcHistoryPrice(btcHistoryUrl, currentPrice) {
              
         for (var i = 0; i < data.prices.length; i++) {
             if(i < data.prices.length - 1) {
-                let date = moment(data.prices[i][0]).format("L");
-                let nextDay = i+1;
-                let coinData = {
+                const date = moment(data.prices[i][0]).format("L");
+                const nextDay = i+1;
+                const coinData = {
                     Day: date, 
                     StartDay: data.prices[i][1], 
                     EndDay: data.prices[nextDay][1]
@@ -250,8 +276,15 @@ function btcHistoryPrice(btcHistoryUrl, currentPrice) {
                 arr.push(coinData)
             }
         }
-        console.log(arr)
+        // console.log(arr)
         // console.log(currentPrice.market_data.current_price.usd)
-        createCandlestickGraph(arr);
+        currentValueEl.textContent = " $" + JSON.stringify(Math.floor(arr[29].EndDay));
+        if (localStorage.getItem("preferredGraph") === "candlestick") {
+            createCandlestickGraph(arr);
+        } else {
+            createLineGraph(arr);
+        }
     })
 }
+
+loadPage();
