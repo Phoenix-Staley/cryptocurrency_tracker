@@ -41,23 +41,32 @@ stroke-width: 3;
 font-size: 14px;
 }
 
-.cardContainer div{
+.cardContainer{
 display: flex;
 justify-content: center;
 align-items: center;
+margin-left: 600px;
+margin-top: 30px;
 }
 
 /* stylizing the current value card*/
-div card {
+div .card {
 background:  #475977ff;
-height: 20px;
-width: 150px;
 padding: 10px;
 margin-top: 20px;
-display: inline-block;
+display: inline;
 border-color: black;
 border-style: solid;
 border-width: 2px;
+}
+
+.releases-amount{
+  flex: 1;
+  margin-left: 5px;
+}
+
+.curValue{
+  margin-right: 5px;
 }
 
 .links {
