@@ -168,6 +168,7 @@ async function createCandlestickGraph(data) {
 
     wrapper.append("g")
             .attr("transform", `translate(0,${dimensions.height - dimensions.margins.bottom})`)
+            .attr("class", "axis")
         .call(xAxis);
 
     const yAxisGenerator = d3.axisLeft()
