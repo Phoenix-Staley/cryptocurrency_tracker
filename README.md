@@ -1,58 +1,26 @@
-<<<<<<< HEAD
-Crytpocurrency Tracker
+# Bitcon Tracker
 
 
-##USER STORY-
+## User Story
 
 AS AN amateur investor,
 I WANT an application that shows the value of bitcoin in real time
 SO THAT I know how much it's worth at the time I view it
 WHEN I click on the dashboard,
-I CAN view weekly, monthly, and yearly price histories of bitcoin
+I CAN view the bitcoin price in real time on a chart for the last 30 days
 SO THAT I can analyze how well it is doing over time
 
-https://www.coingecko.com/en/coins/bitcoin/usd#panel
+## Project Description
 
-https://axios-http.com/docs/intro
+When you open the application it will display the bitcoin price in real time and how many Bitcoin Core releases there have been. The bitcoin price for the last 30 days will be displayed on a chart. The user can switch between a line chart or candlestick chart by clicking a button. There are three links provided on the webiste that link to brokerages that can be used to invest in Bitcoin. This provides potential users with another resource to use when researching investment opportunities in cryptocurrency. 
 
-Bitcoin white paper: https://bitcoin.org/bitcoin.pdf
+## Project requirements and technologies used
 
-
-##PROJECT DESCRIPTION #1-
-
-When you open the application it will display the bitcoin price in real time on a chart. You will be able to click on different tabs that will display a bitcoin price chart in real time, over the last week, last month and last year. This provides potential users with another resource to use when researching investment opportunities. 
-
-Project tasks-
-Build wireframe for the application design.
-Decide on colors and font style. (css, font awesome)
-Decide which APIs to use for bitcoin charts.
-Start creating an HTML file using the wireframe design.
-Use CSS to add color and layout properties along with media query for smaller screens.
-Add APIs to JS and create handles that link to HTM using querySelector, addEventListener function. 
-Create a fetch request, then a function for handling that response to change the webpage.
+We used Skeleton as a the CSS framework. The webpage deploys and works as it is intended to. The website is intereactive and responds to user input through a change graph button. The user can click on links within the webpage that will bring them to investment websites. CoinGecko API used to fetch current Bitocin data. GitHub API used to fetch the current number of Bitcoin Core releases. A modal is used through the change graph button. Client-side storage used to store data for the different graphs. 
 
 
-###Chart types
--Daily, weekly, yearly charts willl be line charts. 
--Minute, hourly will be cadlestick charts.
+<a href=https://phoenix-staley.github.io/cryptocurrency_tracker>Bitcoin Tracker</a>
+
+<img src="assets/images/bitcoin-tracker.png"/>
 
 
-##PROJECT DESCRIPTION #2- 
-
-Which blockchain has the most new developers using it. When you open the application it will show the top/top-3 blockchains that developers have been starting new projects in. It will show real time updated charts along with historical charts. 
-
-Combine crypto tracker and github
-
--possible websites to use
-
-https://www.altcoinbuzz.io/bitcoin-and-crypto-guide/bitcoin-and-ethereum-rivaled-blockchains-attracting-developers/
-
-https://chaindebrief.com/which-blockchain-highest-developer-count/#:~:text=It's%20no%20surprise%20that%20Ethereum,of%20all%20developers%20entering%20Web3
-
-https://cointelegraph.com/news/ethereum-dominates-among-developers-but-competitors-growing-faster
-
-https://www.coindesk.com/tech/2022/01/05/whats-the-healthiest-chart-in-crypto-the-developer-count/
-=======
-# project1
-## a cryptocurrency tracker
->>>>>>> development

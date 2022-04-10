@@ -6,101 +6,50 @@
     <link rel="stylesheet" href="./assets/css/normalize.css">
     <link rel="stylesheet" href="./assets/css/skeleton.css">
     <link rel="stylesheet" href="./assets/css/style.css">
-    
 
-    <title>Crypto Tracker.com</title>
-    
-   <header>
-    <h1>Crypto Tracker.com</h1>
-    <i class="fa-solid fa-coins fa-2x fa-fw" ></i>
-   </header> 
+    <title>Bitcoin Tracker</title>
 </head>
 
 <body>
 
-    <nav>
-        <button href="#">BTC</button>
-        <button href="#">% Change</button>
-    </nav>
-
+ <header>
+  <h1>Bitcoin Tracker</h1>
+    <i class="fa-solid fa-coins fa-2x fa-fw" ></i>
+ </header> 
       <div class="cardContainer">
-         <div class="curValue">
-            <card>Current Value:<span id="current-value"></span></card>
-         </div>
+
+         <div class="curValue">Current Value:<span id="current-value"></span></div>
+         
+         <div class="releases-amount">There have been <span id="releases"></span> releases</div>
       
-
-        <div class="pastValue">
-         <card>Value on:<span id="past-value-date"></span>was<span id="past-value"></span></card>
-        </div> 
-
-         <div class="dropdown">
-            <button>Select A Date</button>
-              <section class="dropdown-content">
-                <a href="#">1 Day Ago</a>
-                <a href="#">Last Week</a>
-                <a href="#">Last Month</a>
-                <a href="#">Last Year</a>
-              </section>
-          </div>
-        </div>
-        
+      </div>
+    
     <section class="center-g">
         <div class="graph"></div>
     </section>
 
-    
-    <h4>Using the links below you can easily invest in the crypto currencies you see above</h4>
-      <card class="links">
+
+    <div class= "changeGraph">
+    <button id="change-graph">Change Graph</button>
+    </div>
+
+    <h4>Using the links below you can easily invest in Bitcoin</h4>
+
+      <div class="links-card">
           <ul>
            <li><a href="https://robinhood.com">Robinhood</a></li>
            <li><a href="https://www.coinbase.com/">CoinBase</a></li>
            <li><a href="https://crypto.com/">Crypto.com</a></li>
-      </card>
+          </ul> 
+      </div>
+
+
+
 
     <script src="https://kit.fontawesome.com/841f1de8cd.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="./assets/JavaScript/phoenix.js"></script>
-    <script src="./assets/JavaScript/jesse.js"></script>
+    <script src="./assets/JavaScript/script.js"></script>
 </body>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </html>
