@@ -188,3 +188,7 @@ div.cardContainer div {
     font-size: smaller;
   }
 }
+
+footer h4 {
+  color: cadetblue;
+}
