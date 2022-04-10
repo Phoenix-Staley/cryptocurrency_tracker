@@ -1,12 +1,51 @@
+:root {
+  --grey: #303030;
+  --lighterGrey: #505050;
+  --lightBlue: #458;
+  --blue: #236;
+}
+
+main {
+  display: flex;
+  min-height: 83vh;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
 header {
   width: 100%;
-  height: 150px;
-  background-color: #475977ff;
+  height: 10vh;
+  background: linear-gradient(var(--lightBlue), var(--blue));
   color: #ffffffff;
   -webkit-text-stroke: 2px black;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+header h1 {
+  margin-bottom: 0;
+}
+
+footer {
+  width: 100%;
+  height: 7vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: absolute;
+  bottom: 0;
+  background-color: var(--blue);
+}
+
+footer h4 {
+  color: black;
+  width: 100%;
+  font-size: 18px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  margin-bottom: 10px;
 }
 
 button {
@@ -19,11 +58,16 @@ button:hover {
 
 body {
   background-color: #0c0c0fff;
-  color: #ffffffff;
+  color: white;
+}
+
+ul {
+  margin-bottom: 10px;
 }
 
 /* centering graph */
 .center-g{
+  height: 34vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -45,7 +89,6 @@ font-size: 14px;
 display: flex;
 justify-content: center;
 align-items: center;
-margin-left: 600px;
 margin-top: 30px;
 }
 
@@ -61,7 +104,6 @@ border-width: 2px;
 }
 
 .releases-amount{
-  flex: 1;
   margin-left: 5px;
 }
 
@@ -75,22 +117,32 @@ border-width: 2px;
   align-items: center;
 }
 
-h4 {
-  color: white;
-  width: 100%;
-  font-size: 18px;
-  display: flex;
-  align-content: center;
-  justify-content: center;
-}
-
 .links li {
   display: inline-block;
 }
 
-ul a {
+.links-card {
+  text-align: center;
+}
+
+.links-card ul li {
+  display: inline;
+  padding: 8px;
+  background-color: var(--lighterGrey);
+  margin: 5px;
+  border-radius: 5px;
+}
+
+.links-card ul li a {
+  text-decoration: none;
+  color: black;
+  height: 100%;
   font-size: 18px;
-  padding: 20px;
+  padding: 5px 25px;
+}
+
+.links-card ul li:hover {
+  background-color: var(--grey);
 }
 
 .fa-coins {
@@ -102,5 +154,37 @@ ul a {
   justify-content: center;
   align-items: center;
   margin: 25px;
-  color: white;
-};
+}
+
+.changeGraph button {
+  color: cadetblue;
+  background-color: var(--grey);
+  border-style: ridge;
+  border-width: 2px;
+  border-color: #606060;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.changeGraph button:hover {
+  background-color: var(--lighterGrey);
+}
+
+div.cardContainer div {
+  background-color: var(--grey);
+  padding: 5px;
+  border-radius: 5px;
+  border: 2px var(--lighterGrey) dashed;
+}
+
+@media only screen and (max-width: 768px) {
+  .tick text {
+    font-size: xx-small;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .tick text {
+    font-size: smaller;
+  }
+}
