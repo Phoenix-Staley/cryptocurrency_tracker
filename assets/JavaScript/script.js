@@ -289,7 +289,7 @@ function getBTChistory(btcHistoryUrl, currentPrice) {
         }
         console.log(arr)
         // console.log(currentPrice.market_data.current_price.usd)
-        currentValueEl.textContent = " $" + JSON.stringify(Math.floor(arr[29].EndDay));
+        currentValueEl.textContent = " $" + JSON.stringify(Math.floor(arr[28].EndDay));
         if (localStorage.getItem("preferredGraph") === "candlestick") {
             createCandlestickGraph(arr);
         } else {
