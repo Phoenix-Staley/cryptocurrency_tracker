@@ -24,9 +24,16 @@ When you open the application, the Bitcoin Tracker will display the bitcoin pric
 
 We used Skeleton as the CSS framework. The webpage deploys and works as it is intended to. The website is interactive and responds to user input through a change graph button. The user can click on links within the webpage that will bring them to investment websites. CoinGecko API is used to fetch the current Bitcoin data. GitHub API is used to fetch the current number of Bitcoin Core releases. A modal is used through the change graph button. Client-side storage is used to store data for the different graphs. 
 
+## Contributors
 
-<a href=https://phoenix-staley.github.io/cryptocurrency_tracker>Bitcoin Tracker</a>
+This project was developed by [Jesse Crumley](https://github.com/crumwj22 "Github profile"), [Kiersten Zug](https://github.com/Kzug "Github profile"), [Phoenix Staley](https://github.com/Phoenix-Staley "Github profile"), and [Trentyn Powell](https://github.com/trentynp "Github profile").
 
-<img src="assets/images/bitcoin_tracker.png"/>
+## Live site
 
+[Bitcoin Tracker](https://phoenix-staley.github.io/cryptocurrency_tracker "Bitcoin Tracker")<a href=https://phoenix-staley.github.io/cryptocurrency_tracker>Bitcoin Tracker</a>
 
+- - -
+
+![A chart of a blue line that displays Bitcoins price over 30 days](./assets/images/bitcoin_tracker.png "Line chart of Bitcoins price")
+
+![A chart of a green and blue bars that displays Bitcoins change in price over 30 days](./assets/images/bitcoin-tracker-1.png "Candlestick chart of Bitcoins price")
