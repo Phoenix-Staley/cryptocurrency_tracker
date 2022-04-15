@@ -28,16 +28,12 @@ We used Skeleton as the CSS framework. The webpage deploys and works as it is in
 
 This project was developed by [Jesse Crumley](https://github.com/crumwj22 "Github profile"), [Kiersten Zug](https://github.com/Kzug "Github profile"), [Phoenix Staley](https://github.com/Phoenix-Staley "Github profile"), and [Trentyn Powell](https://github.com/trentynp "Github profile").
 
-<<<<<<< HEAD
 ## Live site
-=======
-<img src="assets/images/bitcoin_tracker.png"/>
->>>>>>> development
 
 [Bitcoin Tracker](https://phoenix-staley.github.io/cryptocurrency_tracker "Bitcoin Tracker")<a href=https://phoenix-staley.github.io/cryptocurrency_tracker>Bitcoin Tracker</a>
 
 - - -
 
-![A chart of a blue line that displays Bitcoins price over 30 days](./assets/images/bitcoin-tracker.png "Line chart of Bitcoins price")
+![A chart of a blue line that displays Bitcoins price over 30 days](./assets/images/bitcoin_tracker.png "Line chart of Bitcoins price")
 
 ![A chart of a green and blue bars that displays Bitcoins change in price over 30 days](./assets/images/bitcoin-tracker-1.png "Candlestick chart of Bitcoins price")
