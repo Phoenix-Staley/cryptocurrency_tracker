@@ -30,7 +30,7 @@ This project was developed by [Jesse Crumley](https://github.com/crumwj22 "Githu
 
 ## Live site
 
-[Bitcoin Tracker](https://phoenix-staley.github.io/cryptocurrency_tracker "Bitcoin Tracker")<a href=https://phoenix-staley.github.io/cryptocurrency_tracker>Bitcoin Tracker</a>
+[Bitcoin Tracker](https://phoenix-staley.github.io/cryptocurrency_tracker "Bitcoin Tracker")
 
 - - -
 
